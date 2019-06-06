@@ -240,6 +240,24 @@ public class JarInferTest {
   }
 
   @Test
+  public void toyException() throws Exception {
+    testTemplate(
+        "toyException",
+        "toys",
+        "Foo",
+        ImmutableMap.of("toys.Foo:String paramCanBeNull(Object)", Sets.newHashSet(1, 1)),
+        "class Foo {",
+        "  public String paramCanBeNull(Object o) {",
+        "    try {",
+        "      return o.toString();",
+        "    } catch (NullPointerException e) {",
+        "      return \"\";",
+        "    }",
+        "  }",
+        "}");
+  }
+
+  @Test
   public void toyJAR() throws Exception {
     testJARTemplate(
         "com.uber.nullaway.jarinfer.toys.unannotated",
